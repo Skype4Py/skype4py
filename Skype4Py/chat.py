@@ -19,16 +19,32 @@ class Chat(Cached):
     def _Alter(self, AlterName, Args=None):
         '''
         --- Prajna bug fix ---
-        Original code:
+        The original code:
         return self._Owner._Alter('CHAT', self.Name, AlterName, Args,
                                   'ALTER CHAT %s %s' % (self.Name, AlterName))
-        Whereas most of the ALTER commands echo the command in the reply,
-        the ALTER CHAT commands strip the <chat_id> from the reply,
-        so we need to do the same for the expected reply
+        assumes that all ALTER CHAT commands return the chat_id in the reply
+        string, however this is generally not the case. e.g.
+        command ALTER CHAT <chat_id> SETTOPIC <topic>
+        returns ALTER CHAT SETTOPIC
+   
+        ALTER CHAT commands with no chat_id in the response:
+           SETTOPIC, SETTOPICXML, ADDMEMBERS, LEAVE, JOIN, CLEARRECENTMESSAGES,
+           SETALERTSTRING, DISBAND, SETPASSWORD, ENTERPASSWORD, SETOPTIONS,
+           SETROLETO, KICK, KICKBAN, SETGUIDELINES
+   
+        ALTER CHAT commands returning the chat_id:
+           ALTER CHAT <chat_id> BOOKMARK returns ALTER CHAT <chat_id> BOOKMARKED TRUE),
+           ALTER CHAT <chat_id> UNBOOKMARK returns ALTER CHAT <chat_id> BOOKMARKED FALSE)
+   
+        ALTER CHAT commands where return not specified in the API docs:
+           ACCEPTADD  (assumed to exclude the chat_id from the reply)
         '''
-        return self._Owner._Alter('CHAT', self.Name, AlterName, Args,
+        if AlterName in {'BOOKMARK', 'UNBOOKMARK'}:
+            return self._Owner._Alter('CHAT', self.Name, AlterName, Args,
+                                  'ALTER CHAT %s BOOKMARKED' % (self.Name))
+        else:
+            return self._Owner._Alter('CHAT', self.Name, AlterName, Args,
                                   'ALTER CHAT %s' % (AlterName))
-
     def _Property(self, PropName, Value=None, Cache=True):
         return self._Owner._Property('CHAT', self.Name, PropName, Value, Cache)
 
