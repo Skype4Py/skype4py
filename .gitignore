@@ -56,3 +56,5 @@ lib/
 local/
 virtualenv.py
 MANIFEST
+
+secret_chat_id

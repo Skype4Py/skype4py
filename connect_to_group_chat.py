@@ -15,30 +15,32 @@ def OnAttach(status):
         skype.Attach()
 
 def handleMessage(msg):
-    res = None
+    res = []
     for regex, message in patterns.iteritems():
         pattern = re.compile(regex, re.I)
         if pattern.search(msg):
-            res = message
-            break
-    return res
+            res.append(message)
+    if len(res) == 0:
+        return None
+    else:
+        return ' '.join(res)
 
 def MessageHistory(user):
     print "Something changed.... "+user
     
 
 def MessageStatus(msg, status):
-    print status, str(msg.Body.encode('utf-8'))
+    #print status, str(msg.Body.encode('utf-8'))
     if not msg.Chat.Name == chat.Name:
         return
     if status == Skype4Py.cmsReceived:
         msgText = str(msg.Body.encode('utf-8'))
-        print "STATUS: "+str(status)
+        #print "STATUS: "+str(status)
         res = handleMessage(msgText)
         if not res == None:
             msg.Chat.SendMessage(res)
         #if msg.Chat.Type in (Skype4Py.chatTypeDialog, Skype4Py.chatTypeLegacyDialog):
-        print 'GOT MSG: '+msgText
+        #print 'GOT MSG: '+msgText
             
 skype = Skype4Py.Skype()
 skype.OnAttachmentStatus = OnAttach
@@ -48,6 +50,7 @@ skype.OnMessageHistory = MessageHistory
 patterns = {}
 patterns[".*f.+rst.*"] = "Second"
 patterns[".*davse.*"] = "Mente du D-Diddy?"
+patterns[".*cloud.*"] = "Jeg kan anbefale Microsoft Azure."
 
 
 # Starting Skype if it's not running already..
@@ -60,13 +63,14 @@ print 'Connecting to Skype..'
 skype.Attach()
 
 #Id on group chat
-#bfc18ab90c7d6168
+chatid = sys.argv[1]
+print 'Connecting to chat with id: '+chatid
 
 chat = None
 
 for i in skype.Chats:
     #print i.Name
-    if str(i.Name).endswith('bfc18ab90c7d6168'):
+    if str(i.Name).endswith(chatid):
         chat = i
         for m in i.Members:
             print m.Handle
