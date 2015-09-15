@@ -84,7 +84,6 @@ class APINotifier(SkypeAPINotifier):
                         skype._CallEventHandler('ChatMemberRoleChanged', o, str(value))
                 elif object_type == 'CHATMESSAGE':
                     o = ChatMessage(skype, object_id)
-                    #print 'PROP NAME:',prop_name,str(value), o.Body
                     if prop_name == 'BODY':
                         value = cmsReceived
                     if prop_name == 'STATUS' or prop_name == 'BODY':
@@ -147,7 +146,6 @@ class APINotifier(SkypeAPINotifier):
             elif a == 'CALLHISTORYCHANGED':
                 skype._CallEventHandler('CallHistory')
             elif a == 'IMHISTORYCHANGED':
-                print 'Got IM History changed'
                 skype._CallEventHandler('MessageHistory', '') # XXX: Arg is Skypename, which one?
             elif a == 'CONTACTS':
                 prop_name, value = chop(b)
