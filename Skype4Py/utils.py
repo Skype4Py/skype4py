@@ -40,7 +40,8 @@ def path2unicode(path):
     :return: Decoded path.
     :rtype: unicode
     """
-    return path.decode(sys.getfilesystemencoding())
+    #return path.decode(sys.getfilesystemencoding())
+    return path
     
 
 def unicode2path(path):
