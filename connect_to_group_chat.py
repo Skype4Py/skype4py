@@ -11,13 +11,13 @@ def AttachmentStatusText(status):
 
 # This handler is fired when Skype attatchment status changes
 def OnAttach(status): 
-    print 'API attachment status: ' + AttachmentStatusText(status)
+    print('API attachment status: ' + AttachmentStatusText(status))
     if status == Skype4Py.apiAttachAvailable:
         skype.Attach()
 
 def handleMessage(msg):
     res = []
-    for regex, message in patterns.iteritems():
+    for regex, message in patterns.items():
         pattern = re.compile(regex, re.I)
         if pattern.search(msg):
             if type(message) is str:
@@ -30,7 +30,7 @@ def handleMessage(msg):
         return ' '.join(res)
 
 def MessageHistory(user):
-    print "Something changed.... "+user
+    print("Something changed.... "+user)
     
 
 def MessageStatus(msg, status):
@@ -67,11 +67,11 @@ patterns[".*klok.*"] = lambda msg: 'Klokken er: '+time.strftime("%H:%M", time.lo
 
 # Starting Skype if it's not running already..
 if not skype.Client.IsRunning:
-    print 'Starting Skype..'
+    print('Starting Skype..')
     skype.Client.Start()
 
 # Attatching to Skype..
-print 'Connecting to Skype..'
+print('Connecting to Skype..')
 skype.Attach()
 
 #Id on group chat
@@ -85,7 +85,7 @@ for i in skype.Chats:
     if str(i.Name).endswith(chatid):
         chat = i
         for m in i.Members:
-            print m.Handle
+            print(m.Handle)
         break
 
 #if not chat == None:

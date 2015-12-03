@@ -17,7 +17,7 @@ class SkypeBot(object):
   def MessageStatus(self, msg, status):
     if status == Skype4Py.cmsReceived:
       if msg.Chat.Type in (Skype4Py.chatTypeDialog, Skype4Py.chatTypeLegacyDialog):
-        for regexp, target in self.commands.items():
+        for regexp, target in list(self.commands.items()):
           match = re.match(regexp, msg.Body, re.IGNORECASE)
           if match:
             msg.MarkAsSeen()
@@ -30,7 +30,7 @@ class SkypeBot(object):
     if status:
       try:
         self.skype.ChangeUserStatus(status)
-      except Skype4Py.SkypeError, e:
+      except Skype4Py.SkypeError as e:
         return str(e)
     return 'Current status: %s' % self.skype.CurrentUserStatus
 

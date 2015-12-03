@@ -19,7 +19,7 @@ def AttachmentStatusText(status):
 
 # This handler is fired when Skype attatchment status changes
 def OnAttach(status): 
-    print 'API attachment status: ' + AttachmentStatusText(status)
+    print('API attachment status: ' + AttachmentStatusText(status))
     if status == Skype4Py.apiAttachAvailable:
         skype.Attach()
         
@@ -27,7 +27,7 @@ def OnAttach(status):
 try:
     CmdLine = sys.argv[1]
 except:
-    print 'Missing command line parameter'
+    print('Missing command line parameter')
     sys.exit()
 
 # Creating Skype object and assigning event handlers..
@@ -36,11 +36,11 @@ skype.OnAttachmentStatus = OnAttach
 
 # Starting Skype if it's not running already..
 if not skype.Client.IsRunning:
-    print 'Starting Skype..'
+    print('Starting Skype..')
     skype.Client.Start()
 
 # Attatching to Skype..
-print 'Connecting to Skype..'
+print('Connecting to Skype..')
 skype.Attach()
         
 # Checking if what we got from command line parameter is present in our contact list
@@ -48,14 +48,14 @@ Found = False
 for F in skype.Friends:
     if F.Handle == CmdLine:
         Found = True
-        print 'Chatting ' + F.Handle + ' up...'
+        print('Chatting ' + F.Handle + ' up...')
         chat = skype.CreateChatWith(F.Handle)
         chat.SendMessage('Hej med dig... fra en bot!!!')
         chat.Leave()
         break
 
 if not Found:
-    print 'Call target not found in contact list'
+    print('Call target not found in contact list')
     sys.exit()
         
 # Loop until CallStatus gets one of "call terminated" values in OnCall handler

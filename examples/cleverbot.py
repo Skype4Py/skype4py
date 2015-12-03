@@ -11,7 +11,7 @@ Example of how to use the bindings:
 
 """
 
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import hashlib
 import re
 
@@ -38,8 +38,8 @@ class Session(object):
 				hash=hashlib.md5(digest_txt).hexdigest()
 				self.arglist[self.keylist.index('icognocheck')]=hash
 				data=encode(self.keylist,self.arglist)
-				req=urllib2.Request("http://www.cleverbot.com/webservicemin",data,self.headers)
-				f=urllib2.urlopen(req)
+				req=urllib.request.Request("http://www.cleverbot.com/webservicemin",data,self.headers)
+				f=urllib.request.urlopen(req)
 				reply=f.read()
 				return reply
 		def Ask(self,q):
@@ -48,10 +48,10 @@ class Session(object):
 				if self.MsgList: self.arglist[self.keylist.index('lineref')]='!0'+str(len(self.MsgList)/2)
 				asw=self.Send()
 				return asw
-				print "Answer: " + asw
+				print("Answer: " + asw)
 				self.MsgList.append(q)
 				answer = parseAnswers(asw)
-				for k,v in answer.iteritems():
+				for k,v in answer.items():
 						try:
 							self.arglist[self.keylist.index(k)] = v
 						except ValueError:
@@ -61,7 +61,7 @@ class Session(object):
 				self.MsgList.append(text)
 				return text
 			except:
-				print "cleverbot-ask-error"
+				print("cleverbot-ask-error")
 
 def parseAnswers(text):
 	try:
@@ -77,7 +77,7 @@ def parseAnswers(text):
 				i += 1
 		return d
 	except:
-		print "cleverbot-parse-error"
+		print("cleverbot-parse-error")
 
 def encode(keylist,arglist):
 		text=''
@@ -96,7 +96,7 @@ def quote(s, safe = '/'):   #quote('abc def') -> 'abc%20def'
 		for i in range(256):
 				c = chr(i)
 				safe_map[c] = (c in safe) and c or  ('%%%02X' % i)
-		res = map(safe_map.__getitem__, s)
+		res = list(map(safe_map.__getitem__, s))
 		return ''.join(res)
 
 
@@ -107,13 +107,13 @@ def main():
 		q = ''
 		while q != 'bye':
 				try:
-						q = raw_input("> ")
+						q = input("> ")
 				except KeyboardInterrupt:
 					sys.exit()
 				ans = cb.Ask(q)
 				#print str.encode(ans, "hex")
                 if not ans == None:
-                    print ans.split("\x0D")[0]
+                    print(ans.split("\x0D")[0])
 
 if __name__ == "__main__":
 		main()

@@ -9,6 +9,7 @@ details.
 import wx, wx.lib.dialogs
 import Skype4Py
 import sys, time
+import collections
 
 class MyFrame(wx.Frame):
   def __init__(self, *args, **kwds):
@@ -55,7 +56,7 @@ class MyFrame(wx.Frame):
 
     # Add contacts to the list control.
     for user in friends:
-      i = self.contacts.InsertStringItem(sys.maxint,
+      i = self.contacts.InsertStringItem(sys.maxsize,
           user.FullName)
       self.contacts.SetStringItem(i, 1, user.Handle)
       self.contacts.SetStringItem(i, 2, user.Country)
@@ -109,7 +110,7 @@ class MyFrame(wx.Frame):
     for name in dir(user):
       value = getattr(user, name)
       if not name.startswith('_') and \
-        not callable(value) and \
+        not isinstance(value, collections.Callable) and \
         value not in ([], '') and \
         name not in ('LastOnline',):
           if name == 'OnlineStatus':

@@ -108,7 +108,7 @@ class build_doc(Command):
             finally:
                 sys.argv[1:] = old_argv
 
-            print 'zipping the documentation'
+            print('zipping the documentation')
             import zipfile
             if self.pdf:
                 doctype = 'pdf'
@@ -126,7 +126,7 @@ class build_doc(Command):
             z.close()
 
         except ImportError:
-            print >>sys.stderr, 'epydoc not installed, skipping build_doc.'
+            print('epydoc not installed, skipping build_doc.', file=sys.stderr)
 
 
 commands = {'build_doc': build_doc,

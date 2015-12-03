@@ -24,32 +24,32 @@ def OnCall(call, status):
     global WavFile
     global OutFile
     CallStatus = status
-    print 'Call status: ' + CallStatusText(status)
+    print('Call status: ' + CallStatusText(status))
 
     if (status == Skype4Py.clsEarlyMedia or status == Skype4Py.clsInProgress) and OutFile != '' :
-        print ' recording ' + OutFile
+        print(' recording ' + OutFile)
         call.OutputDevice( Skype4Py.callIoDeviceTypeFile ,OutFile )
         OutFile=''
 
     if status == Skype4Py.clsInProgress and WavFile != '' :
-        print ' playing ' + WavFile
+        print(' playing ' + WavFile)
         call.InputDevice( Skype4Py.callIoDeviceTypeFile ,WavFile )
 
 HasConnected = False
 def OnInputStatusChanged(call, status):
     global HasConnected
-    print 'InputStatusChanged: ',call.InputDevice(),call,status
-    print ' inputdevice: ',call.InputDevice()
+    print('InputStatusChanged: ',call.InputDevice(),call,status)
+    print(' inputdevice: ',call.InputDevice())
     # Hang up if finished
     if status == True:
         HasConnected = True
     if status == False and HasConnected == True:
-        print ' play finished'
+        print(' play finished')
         call.Finish()
 
 # This handler is fired when Skype attatchment status changes
 def OnAttach(status):
-    print 'API attachment status: ' + AttachmentStatusText(status)
+    print('API attachment status: ' + AttachmentStatusText(status))
     if status == Skype4Py.apiAttachAvailable:
         skype.Attach()
 
@@ -57,7 +57,7 @@ def OnAttach(status):
 try:
     CmdLine = sys.argv[1]
 except:
-    print 'Usage: python skypecall.py destination [wavtosend] [wavtorecord]'
+    print('Usage: python skypecall.py destination [wavtosend] [wavtorecord]')
     sys.exit()
 
 try:
@@ -79,11 +79,11 @@ skype.OnCallInputStatusChanged = OnInputStatusChanged
 
 # Starting Skype if it's not running already..
 if not skype.Client.IsRunning:
-    print 'Starting Skype..'
+    print('Starting Skype..')
     skype.Client.Start()
 
 # Attatching to Skype..
-print 'Connecting to Skype..'
+print('Connecting to Skype..')
 skype.Attach()
 
 # Checking if what we got from command line parameter is present in our contact list
@@ -91,12 +91,12 @@ Found = False
 for F in skype.Friends:
     if F.Handle == CmdLine:
         Found = True
-        print 'Calling ' + F.Handle + '..'
+        print('Calling ' + F.Handle + '..')
         skype.PlaceCall(CmdLine)
         break
 if not Found:
-    print 'Call target not found in contact list'
-    print 'Calling ' + CmdLine + ' directly.'
+    print('Call target not found in contact list')
+    print('Calling ' + CmdLine + ' directly.')
     skype.PlaceCall(CmdLine)
 
 # Loop until CallStatus gets one of "call terminated" values in OnCall handler

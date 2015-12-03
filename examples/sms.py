@@ -7,16 +7,16 @@ import time
 class SkypeEvents:
     # message status event handler
     def SmsMessageStatusChanged(self, sms, status):
-        print '>Sms', sms.Id, 'status', status, \
-            skype.Convert.SmsMessageStatusToText(status)
+        print('>Sms', sms.Id, 'status', status, \
+            skype.Convert.SmsMessageStatusToText(status))
         if status == Skype4Py.smsMessageStatusFailed:
-            print sms.FailureReason
+            print(sms.FailureReason)
 
     # target status event handler
     def SmsTargetStatusChanged(self, target, status):
-        print '>Sms', target.Message.Id, \
+        print('>Sms', target.Message.Id, \
             'target', target.Number, 'status', status, \
-            skype.Convert.SmsTargetStatusToText(status)
+            skype.Convert.SmsTargetStatusToText(status))
 
 # instatinate event handlers and Skype class
 skype = Skype4Py.Skype(Events=SkypeEvents())

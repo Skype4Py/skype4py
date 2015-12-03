@@ -14,18 +14,18 @@ class SmsMessageTest(skype4pytest.TestCase):
     def testDelete(self):
         self.api.enqueue('DELETE SMS 1234')
         self.obj.Delete()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testMarkAsSeen(self):
         self.api.enqueue('SET SMS 1234 SEEN',
                          'SMS 1234 STATUS READ')
         self.obj.MarkAsSeen()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSend(self):
         self.api.enqueue('ALTER SMS 1234 SEND')
         self.obj.Send()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     # Properties
     # ==========
@@ -35,13 +35,13 @@ class SmsMessageTest(skype4pytest.TestCase):
         self.api.enqueue('GET SMS 1234 BODY',
                          'SMS 1234 BODY eggs')
         t = self.obj.Body
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
         self.api.enqueue('SET SMS 1234 BODY eggs',
                          'SMS 1234 BODY eggs')
         self.obj.Body = 'eggs'
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testChunks(self):
         # Readable, Type: SmsChunkCollection
@@ -50,7 +50,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.Chunks
         self.assertInstance(t, SmsChunkCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testDatetime(self):
         # Readable, Type: datetime
@@ -62,7 +62,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.Datetime
         self.assertInstance(t, datetime)
         self.assertEqual(t, datetime.fromtimestamp(now))
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testFailureReason(self):
         # Readable, Type: str
@@ -71,7 +71,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.FailureReason
         self.assertInstance(t, str)
         self.assertEqual(t, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testId(self):
         # Readable, Type: int
@@ -86,7 +86,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.IsFailedUnseen
         self.assertInstance(t, bool)
         self.assertEqual(t, True)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testPrice(self):
         # Readable, Type: int
@@ -95,16 +95,16 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.Price
         self.assertInstance(t, int)
         self.assertEqual(t, 123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testPriceCurrency(self):
         # Readable, Type: unicode
         self.api.enqueue('GET SMS 1234 PRICE_CURRENCY',
                          'SMS 1234 PRICE_CURRENCY EUR')
         t = self.obj.PriceCurrency
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'EUR')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testPricePrecision(self):
         # Readable, Type: int
@@ -113,7 +113,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.PricePrecision
         self.assertInstance(t, int)
         self.assertEqual(t, 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testPriceToText(self):
         # Readable, Type: unicode
@@ -124,9 +124,9 @@ class SmsMessageTest(skype4pytest.TestCase):
         self.api.enqueue('GET SMS 1234 PRICE_PRECISION',
                          'SMS 1234 PRICE_PRECISION 3')
         t = self.obj.PriceToText
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'EUR 0.123')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testPriceValue(self):
         # Readable, Type: float
@@ -137,7 +137,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.PriceValue
         self.assertInstance(t, float)
         self.assertEqual(t, 0.123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testReplyToNumber(self):
         # Readable, Writable, Type: str
@@ -146,11 +146,11 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.ReplyToNumber
         self.assertInstance(t, str)
         self.assertEqual(t, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
         self.api.enqueue('SET SMS 1234 REPLY_TO_NUMBER eggs',
                          'SMS 1234 REPLY_TO_NUMBER eggs')
         self.obj.ReplyToNumber = 'eggs'
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSeen(self):
         # Writable, Type: bool
@@ -162,7 +162,7 @@ class SmsMessageTest(skype4pytest.TestCase):
             self.obj.Seen = True
         finally:
             simplefilter('default')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testStatus(self):
         # Readable, Type: str
@@ -171,7 +171,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.Status
         self.assertInstance(t, str)
         self.assertEqual(t, 'RECEIVED')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testTargetNumbers(self):
         # Readable, Writable, Type: tuple of str
@@ -180,11 +180,11 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.TargetNumbers
         self.assertInstance(t, tuple)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
         self.api.enqueue('SET SMS 1234 TARGET_NUMBERS +3787654321',
                          'SMS 1234 TARGET_NUMBERS +3787654321')
         self.obj.TargetNumbers = ('+3787654321',)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testTargets(self):
         # Readable, Type: SmsTargetCollection
@@ -193,7 +193,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.Targets
         self.assertInstance(t, SmsTargetCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testTimestamp(self):
         # Readable, Type: float
@@ -202,7 +202,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.Timestamp
         self.assertInstance(t, float)
         self.assertEqual(t, 123.4)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testType(self):
         # Readable, Type: str
@@ -211,7 +211,7 @@ class SmsMessageTest(skype4pytest.TestCase):
         t = self.obj.Type
         self.assertInstance(t, str)
         self.assertEqual(t, 'INCOMING')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
 
 class SmsChunkTest(skype4pytest.TestCase):
@@ -228,7 +228,7 @@ class SmsChunkTest(skype4pytest.TestCase):
         t = self.obj.CharactersLeft
         self.assertInstance(t, int)
         self.assertEqual(t, 30)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testId(self):
         # Readable, Type: int
@@ -247,9 +247,9 @@ class SmsChunkTest(skype4pytest.TestCase):
         self.api.enqueue('GET SMS 1234 CHUNK 1',
                          'SMS 1234 CHUNK 1 eggs')
         t = self.obj.Text
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
 
 class SmsTargetTest(skype4pytest.TestCase):
@@ -278,7 +278,7 @@ class SmsTargetTest(skype4pytest.TestCase):
         t = self.obj.Status
         self.assertInstance(t, str)
         self.assertEqual(t, 'TARGET_ACCEPTABLE')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
 
 def suite():

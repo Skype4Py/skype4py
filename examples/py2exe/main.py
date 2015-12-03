@@ -5,9 +5,9 @@ if __name__ == '__main__':
     skype.FriendlyName = 'main'
     skype.Attach()
     
-    print 'Your Skypename:'
-    print '   ', skype.CurrentUserHandle
+    print('Your Skypename:')
+    print('   ', skype.CurrentUserHandle)
     
-    print 'Your contacts:'
+    print('Your contacts:')
     for user in skype.Friends:
-        print '   ', user.Handle
+        print('   ', user.Handle)

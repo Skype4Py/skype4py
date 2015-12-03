@@ -12,7 +12,7 @@ class SkypeEvents:
         # some data, we scan all of them, read
         # and print the data out
         for s in streams:
-            print s.Read()
+            print(s.Read())
 
 # instatinate Skype object and set our event handlers
 skype = Skype4Py.Skype(Events=SkypeEvents())

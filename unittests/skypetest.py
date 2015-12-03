@@ -15,7 +15,7 @@ class SkypeTest(skype4pytest.TestCase):
         # Returned type: bool
         def test():
             self.obj.ApiSecurityContextEnabled('spam')
-        self.failUnlessRaises(SkypeAPIError, test)
+        self.assertRaises(SkypeAPIError, test)
 
     def testApplication(self):
         # Returned type: Application
@@ -29,7 +29,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.AsyncSearchUsers('spam')
         self.assertInstance(t, int)
         self.assertEqual(t, 0)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testAttach(self):
         self.api.set_attachment_status(apiAttachUnknown)
@@ -44,7 +44,7 @@ class SkypeTest(skype4pytest.TestCase):
         self.assertInstance(t, Call)
         self.assertEqual(t.Id, 345)
         self.assertEqual(t.Status, 'spam')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCalls(self):
         # Returned type: CallCollection
@@ -54,7 +54,7 @@ class SkypeTest(skype4pytest.TestCase):
         self.assertInstance(t, CallCollection)
         self.assertEqual(len(t), 3)
         self.assertEqual(t[1].Id, 456)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testChangeUserStatus(self):
         self.api.enqueue('GET USERSTATUS',
@@ -63,7 +63,7 @@ class SkypeTest(skype4pytest.TestCase):
                          'USERSTATUS eggs')
         self.obj.ChangeUserStatus('eggs')
         self.assertEqual(self.obj.CurrentUserStatus, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testChat(self):
         # Returned type: chat.Chat
@@ -73,22 +73,22 @@ class SkypeTest(skype4pytest.TestCase):
         self.assertInstance(t, Chat)
         self.assertEqual(t.Name, 'spam')
         self.assertEqual(t.Status, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testClearCallHistory(self):
         self.api.enqueue('CLEAR CALLHISTORY ALL spam')
         self.obj.ClearCallHistory('spam')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testClearChatHistory(self):
         self.api.enqueue('CLEAR CHATHISTORY')
         self.obj.ClearChatHistory()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testClearVoicemailHistory(self):
         self.api.enqueue('CLEAR VOICEMAILHISTORY')
         self.obj.ClearVoicemailHistory()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCommand(self):
         # Returned type: Command
@@ -107,7 +107,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Conference(789)
         self.assertInstance(t, Conference)
         self.assertEqual(t.Id, 789)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCreateChatUsingBlob(self):
         # Returned type: chat.Chat
@@ -116,7 +116,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.CreateChatUsingBlob('spam')
         self.assertInstance(t, Chat)
         self.assertEqual(t.Name, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCreateChatWith(self):
         # Returned type: Chat
@@ -124,7 +124,7 @@ class SkypeTest(skype4pytest.TestCase):
                          'CHAT sausage STATUS bacon')
         t = self.obj.CreateChatWith('spam', 'eggs')
         self.assertInstance(t, Chat)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCreateGroup(self):
         # Returned type: Group
@@ -139,7 +139,7 @@ class SkypeTest(skype4pytest.TestCase):
         self.assertInstance(t, Group)
         self.assertEqual(t.Id, 456)
         self.assertEqual(t.DisplayName, 'spam')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCreateSms(self):
         # Returned type: SmsMessage
@@ -148,17 +148,17 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.CreateSms(smsMessageTypeOutgoing, '+1234567890')
         self.assertInstance(t, SmsMessage)
         self.assertEqual(t.Id, 123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testDeleteGroup(self):
         self.api.enqueue('DELETE GROUP 789')
         self.obj.DeleteGroup(789)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testEnableApiSecurityContext(self):
         def test():
             self.obj.EnableApiSecurityContext('spam')
-        self.failUnlessRaises(SkypeAPIError, test)
+        self.assertRaises(SkypeAPIError, test)
 
     def testFindChatUsingBlob(self):
         # Returned type: chat.Chat
@@ -167,7 +167,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.FindChatUsingBlob('spam')
         self.assertInstance(t, Chat)
         self.assertEqual(t.Name, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testGreeting(self):
         # Returned type: Voicemail
@@ -180,7 +180,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Greeting('spam')
         self.assertInstance(t, Voicemail)
         self.assertEqual(t.Id, 123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testMessage(self):
         # Returned type: ChatMessage
@@ -190,7 +190,7 @@ class SkypeTest(skype4pytest.TestCase):
         self.assertInstance(t, ChatMessage)
         self.assertEqual(t.Id, 123)
         self.assertEqual(t.Status, cmsReceived)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testMessages(self):
         # Returned type: ChatMessageCollection
@@ -199,7 +199,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Messages('spam')
         self.assertInstance(t, ChatMessageCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testPlaceCall(self):
         # Returned type: Call
@@ -210,7 +210,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.PlaceCall('spam')
         self.assertInstance(t, Call)
         self.assertEqual(t.Id, 123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testPrivilege(self):
         # Returned type: bool
@@ -219,25 +219,25 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Privilege('spam')
         self.assertInstance(t, bool)
         self.assertEqual(t, True)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testProfile(self):
         # Returned type: unicode or None
         self.api.enqueue('GET PROFILE FULLNAME',
                          'PROFILE FULLNAME spam eggs')
         t = self.obj.Profile('FULLNAME')
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'spam eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testProperty(self):
         # Returned type: unicode or None
         self.api.enqueue('GET CHAT spam STATUS',
                          'CHAT spam STATUS DIALOG')
         t = self.obj.Property('CHAT', 'spam', 'STATUS')
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, chsDialog)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testRegisterEventHandler(self):
         # Returned type: bool
@@ -271,7 +271,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.SearchForUsers('spam')
         self.assertInstance(t, UserCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSendCommand(self):
         self.api.enqueue('SPAM',
@@ -279,7 +279,7 @@ class SkypeTest(skype4pytest.TestCase):
         command = self.obj.Command('SPAM')
         self.obj.SendCommand(command)
         self.assertEqual(command.Reply, 'EGGS')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSendMessage(self):
         # Returned type: ChatMessage
@@ -290,7 +290,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.SendMessage('spam', 'sausage')
         self.assertInstance(t, ChatMessage)
         self.assertEqual(t.Id, 123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSendSms(self):
         # Returned type: SmsMessage
@@ -302,7 +302,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.SendSms('spam', Body='eggs')
         self.assertInstance(t, SmsMessage)
         self.assertEqual(t.Id, 123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSendVoicemail(self):
         # Returned type: Voicemail
@@ -313,7 +313,7 @@ class SkypeTest(skype4pytest.TestCase):
         # TODO: As of now the method does not yet return the Voicemail object.
         #self.assertInstance(t, Voicemail)
         #self.assertEqual(t.Id, 345)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testUser(self):
         # Returned type: User
@@ -325,16 +325,16 @@ class SkypeTest(skype4pytest.TestCase):
         self.assertInstance(t, User)
         self.assertEqual(t.Handle, 'spam')
         self.assertEqual(t.OnlineStatus, olsOffline)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testVariable(self):
         # Returned type: unicode or None
         self.api.enqueue('GET SPAM',
                          'SPAM eggs')
         t = self.obj.Variable('SPAM')
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testVoicemail(self):
         # Returned type: Voicemail
@@ -344,7 +344,7 @@ class SkypeTest(skype4pytest.TestCase):
         self.assertInstance(t, Voicemail)
         self.assertEqual(t.Id, 345)
         self.assertEqual(t.Type, vmtOutgoing)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     # Properties
     # ==========
@@ -356,7 +356,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.ActiveCalls
         self.assertInstance(t, CallCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testActiveChats(self):
         # Readable, Type: ChatCollection
@@ -365,7 +365,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.ActiveChats
         self.assertInstance(t, ChatCollection)
         self.assertEqual(len(t), 4)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def _testActiveFileTransfers(self):
         # Readable, Type: FileTransferCollection
@@ -374,7 +374,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.ActiveFileTransfers
         self.assertInstance(t, FileTransferCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testApiWrapperVersion(self):
         # Readable, Type: str
@@ -398,7 +398,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.BookmarkedChats
         self.assertInstance(t, ChatCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCache(self):
         # Readable, Writable, Type: bool
@@ -416,7 +416,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Chats
         self.assertInstance(t, ChatCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testClient(self):
         # Readable, Type: Client
@@ -430,7 +430,7 @@ class SkypeTest(skype4pytest.TestCase):
         self.assertEqual(t, True)
         def test():
             self.obj.CommandId = False
-        self.failUnlessRaises(SkypeError, test)
+        self.assertRaises(SkypeError, test)
 
     def testConferences(self):
         # Readable, Type: ConferenceCollection
@@ -444,7 +444,7 @@ class SkypeTest(skype4pytest.TestCase):
         self.assertInstance(t, ConferenceCollection)
         self.assertEqual(len(t), 1)
         self.assertEqual(t[0].Id, 789)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testConnectionStatus(self):
         # Readable, Type: str
@@ -453,7 +453,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.ConnectionStatus
         self.assertInstance(t, str)
         self.assertEqual(t, conConnecting)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testConvert(self):
         # Readable, Type: Conversion
@@ -467,7 +467,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.CurrentUser
         self.assertInstance(t, User)
         self.assertEqual(t.Handle, 'spam')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCurrentUserHandle(self):
         # Readable, Type: str
@@ -476,7 +476,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.CurrentUserHandle
         self.assertInstance(t, str)
         self.assertEqual(t, 'spam')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCurrentUserProfile(self):
         # Readable, Type: Profile
@@ -490,11 +490,11 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.CurrentUserStatus
         self.assertInstance(t, str)
         self.assertEqual(t, cusNotAvailable)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
         self.api.enqueue('SET USERSTATUS AWAY',
                          'USERSTATUS AWAY')
         self.obj.CurrentUserStatus = cusAway
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCustomGroups(self):
         # Readable, Type: GroupCollection
@@ -503,7 +503,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.CustomGroups
         self.assertInstance(t, GroupCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testFileTransfers(self):
         # Readable, Type: FileTransferCollection
@@ -512,7 +512,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.FileTransfers
         self.assertInstance(t, FileTransferCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testFocusedContacts(self):
         # Readable, Type: UserCollection
@@ -521,13 +521,13 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.FocusedContacts
         self.assertInstance(t, UserCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testFriendlyName(self):
         # Readable, Writable, Type: unicode
         self.obj.FriendlyName = 'spam'
         t = self.obj.FriendlyName
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'spam')
 
     def testFriends(self):
@@ -537,7 +537,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Friends
         self.assertInstance(t, UserCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testGroups(self):
         # Readable, Type: GroupCollection
@@ -546,7 +546,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Groups
         self.assertInstance(t, GroupCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testHardwiredGroups(self):
         # Readable, Type: GroupCollection
@@ -555,7 +555,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.HardwiredGroups
         self.assertInstance(t, GroupCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testMissedCalls(self):
         # Readable, Type: CallCollection
@@ -564,7 +564,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.MissedCalls
         self.assertInstance(t, CallCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testMissedChats(self):
         # Readable, Type: ChatCollection
@@ -573,7 +573,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.MissedChats
         self.assertInstance(t, ChatCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testMissedMessages(self):
         # Readable, Type: ChatMessageCollection
@@ -582,7 +582,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.MissedMessages
         self.assertInstance(t, ChatMessageCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testMissedSmss(self):
         # Readable, Type: SmsMessageCollection
@@ -591,7 +591,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.MissedSmss
         self.assertInstance(t, SmsMessageCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testMissedVoicemails(self):
         # Readable, Type: VoicemailCollection
@@ -600,7 +600,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.MissedVoicemails
         self.assertInstance(t, VoicemailCollection)
         self.assertEqual(len(t), 5)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testMute(self):
         # Readable, Writable, Type: bool
@@ -609,11 +609,11 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Mute
         self.assertInstance(t, bool)
         self.assertEqual(t, True)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
         self.api.enqueue('SET MUTE OFF',
                          'MUTE OFF')
         self.obj.Mute = False
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testPredictiveDialerCountry(self):
         # Readable, Type: str
@@ -622,7 +622,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.PredictiveDialerCountry
         self.assertInstance(t, str)
         self.assertEqual(t, 'de')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testProtocol(self):
         # Readable, Writable, Type: int
@@ -634,7 +634,7 @@ class SkypeTest(skype4pytest.TestCase):
         self.obj.Protocol = 10
         t = self.obj.Protocol
         self.assertEqual(t, 10)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testRecentChats(self):
         # Readable, Type: ChatCollection
@@ -643,7 +643,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.RecentChats
         self.assertInstance(t, ChatCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSettings(self):
         # Readable, Type: Settings
@@ -657,11 +657,11 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.SilentMode
         self.assertInstance(t, bool)
         self.assertEqual(t, True)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
         self.api.enqueue('SET SILENT_MODE OFF',
                          'SILENT_MODE OFF')
         self.obj.SilentMode = False
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSmss(self):
         # Readable, Type: SmsMessageCollection
@@ -670,7 +670,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Smss
         self.assertInstance(t, SmsMessageCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testTimeout(self):
         # Readable, Writable, Type: float, int or long
@@ -689,7 +689,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.UsersWaitingAuthorization
         self.assertInstance(t, UserCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testVersion(self):
         # Readable, Type: str
@@ -698,7 +698,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Version
         self.assertInstance(t, str)
         self.assertEqual(t, 'spam.eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testVoicemails(self):
         # Readable, Type: VoicemailCollection
@@ -707,7 +707,7 @@ class SkypeTest(skype4pytest.TestCase):
         t = self.obj.Voicemails
         self.assertInstance(t, VoicemailCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
 
 def suite():

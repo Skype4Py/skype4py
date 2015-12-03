@@ -6,7 +6,7 @@ import sys
 
 # check arguments and print usage if needed
 if len(sys.argv) != 3:
-    print 'Usage: app2app_client.py <username> <message>'
+    print('Usage: app2app_client.py <username> <message>')
     sys.exit(1)
 
 # create event; we will need one since Skype4Py's event
