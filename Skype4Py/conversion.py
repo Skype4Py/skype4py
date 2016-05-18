@@ -5,7 +5,7 @@ __docformat__ = 'restructuredtext en'
 
 import os
 
-import enums
+from . import enums
 
 
 # Following code is needed when building executable files using py2exe.
@@ -16,8 +16,8 @@ import enums
 # More about py2exe: http://www.py2exe.org/
 
 if False:
-    import lang
-    
+    from . import lang
+
 
 class Conversion(object):
     """Allows conversion between constants and text. Access using `skype.Skype.Convert`.
@@ -44,7 +44,7 @@ class Conversion(object):
         enum = [z for z in [(y, getattr(enums, y)) for y in [x for x in dir(enums) if x.startswith(Prefix)]] if z[1] == Value]
         if enum:
             try:
-                return unicode(getattr(self._Module, enum[0][0]))
+                return str(getattr(self._Module, enum[0][0]))
             except AttributeError:
                 pass
         raise ValueError('Bad identifier')
@@ -511,9 +511,10 @@ class Conversion(object):
 
     def _SetLanguage(self, Language):
         try:
-            self._Module = __import__('lang.%s' % Language, globals(), locals(), ['lang'])
+            self._Module = __import__('Skype4Py.lang.%s' % Language, globals(), locals(), ['Skype4Py.lang'])
             self._Language = str(Language)
-        except ImportError:
+        except ImportError as e:
+            print(e)
             raise ValueError('Unknown language: %s' % Language)
 
     Language = property(_GetLanguage, _SetLanguage,
