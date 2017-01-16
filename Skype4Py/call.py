@@ -3,17 +3,15 @@
 __docformat__ = 'restructuredtext en'
 
 
-from types import NoneType
-
-from utils import *
-from enums import *
+from .utils import *
+from .enums import *
 
 
 class DeviceMixin(object):
-    def _Device(self, Name, DeviceType=None, Set=NoneType):
+    def _Device(self, Name, DeviceType=None, Set=None):
         args = args2dict(self._Property(Name, Cache=False))
-        if Set is NoneType:
-            for dev, value in args.items():
+        if Set is None:
+            for dev, value in list(args.items()):
                 try:
                     args[dev] = int(value)
                 except ValueError:
@@ -27,12 +25,12 @@ class DeviceMixin(object):
             args[DeviceType] = tounicode(Set)
         else:
             args.pop(DeviceType, None)
-        for dev, value in args.items():
+        for dev, value in list(args.items()):
             args[dev] = quote(value, True)
         self._Alter('SET_%s' % Name,
-                    ', '.join('%s=%s' % item for item in args.items()))
+                    ', '.join('%s=%s' % item for item in list(args.items())))
 
-    def CaptureMicDevice(self, DeviceType=None, Set=NoneType):
+    def CaptureMicDevice(self, DeviceType=None, Set=None):
         """Queries or sets the mic capture device.
 
         :Parameters:
@@ -43,25 +41,25 @@ class DeviceMixin(object):
 
         Querying all active devices:
             Devices = CaptureMicDevice()
-          
+
           Returns a mapping of device types to their values. Only active devices are
           returned.
-          
+
         Querying a specific device:
             Value = CaptureMicDevice(DeviceType)
-          
+
           Returns a device value for the given DeviceType.
-          
+
         Setting a device value:
             CaptureMicDevice(DeviceType, Value)
-          
+
           If Value is None, the device will be deactivated.
 
         :note: This command functions for active calls only.
         """
         return self._Device('CAPTURE_MIC', DeviceType, Set)
 
-    def InputDevice(self, DeviceType=None, Set=NoneType):
+    def InputDevice(self, DeviceType=None, Set=None):
         """Queries or sets the sound input device.
 
         :Parameters:
@@ -72,15 +70,15 @@ class DeviceMixin(object):
 
         Querying all active devices:
             Devices = InputDevice()
-          
+
           Returns a mapping of device types to their values. Only active devices are
           returned.
-          
+
         Querying a specific device:
             Value = InputDevice(DeviceType)
-          
+
           Returns a device value for the given DeviceType.
-          
+
         Setting a device value:
             InputDevice(DeviceType, Value)
 
@@ -90,7 +88,7 @@ class DeviceMixin(object):
         """
         return self._Device('INPUT', DeviceType, Set)
 
-    def OutputDevice(self, DeviceType=None, Set=NoneType):
+    def OutputDevice(self, DeviceType=None, Set=None):
         """Queries or sets the sound output device.
 
         :Parameters:
@@ -101,15 +99,15 @@ class DeviceMixin(object):
 
         Querying all active devices:
             Devices = OutputDevice()
-          
+
           Returns a mapping of device types to their values. Only active devices are
           returned.
-          
+
         Querying a specific device:
             Value = OutputDevice(DeviceType)
-          
+
           Returns a device value for the given DeviceType.
-          
+
         Setting a device value:
             OutputDevice(DeviceType, Value)
 
@@ -261,7 +259,7 @@ class Call(Cached, DeviceMixin):
         self._Alter('DTMF', Value)
 
     DTMF = property(fset=_SetDTMF,
-    doc="""Set this property to send DTMF codes. Permitted symbols are: [0..9, #, \*]. 
+    doc="""Set this property to send DTMF codes. Permitted symbols are: [0..9, #, \*].
 
     :type: str
 
@@ -315,7 +313,7 @@ class Call(Cached, DeviceMixin):
 
     def _GetParticipants(self):
         count = int(self._Property('CONF_PARTICIPANTS_COUNT'))
-        return ParticipantCollection(self, xrange(count))
+        return ParticipantCollection(self, range(count))
 
     Participants = property(_GetParticipants,
     doc="""Participants of a conference call not hosted by the user.
@@ -394,7 +392,7 @@ class Call(Cached, DeviceMixin):
     """)
 
     def _GetRateToText(self):
-        return (u'%s %.3f' % (self.RateCurrency, self.RateValue)).strip()
+        return ('%s %.3f' % (self.RateCurrency, self.RateValue)).strip()
 
     RateToText = property(_GetRateToText,
     doc="""Returns the call rate as a text with currency and properly formatted value.
