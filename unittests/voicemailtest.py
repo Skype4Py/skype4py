@@ -17,32 +17,32 @@ class VoicemailTest(skype4pytest.TestCase):
                          'VOICEMAIL 1234 CAPTURE_MIC file="c:\\spam.wav"')
         t = self.obj.CaptureMicDevice()
         self.assertInstance(t, dict)
-        self.assertEqual(t, {u'file': 'c:\\spam.wav'})
-        self.failUnless(self.api.is_empty())
+        self.assertEqual(t, {'file': 'c:\\spam.wav'})
+        self.assertTrue(self.api.is_empty())
 
     def testDelete(self):
         self.api.enqueue('ALTER VOICEMAIL 1234 DELETE')
         self.obj.Delete()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testDownload(self):
         self.api.enqueue('ALTER VOICEMAIL 1234 DOWNLOAD')
         self.obj.Download()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testInputDevice(self):
         # Returned type: unicode, dict or None
         self.api.enqueue('GET VOICEMAIL 1234 INPUT',
                          'VOICEMAIL 1234 INPUT file="c:\\spam.wav"')
         t = self.obj.InputDevice('file')
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'c:\\spam.wav')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testOpen(self):
         self.api.enqueue('OPEN VOICEMAIL 1234')
         self.obj.Open()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testOutputDevice(self):
         # Returned type: unicode, dict or None
@@ -50,42 +50,42 @@ class VoicemailTest(skype4pytest.TestCase):
                          'VOICEMAIL 1234 OUTPUT')
         self.api.enqueue('ALTER VOICEMAIL 1234 SET_OUTPUT file="c:\\spam.wav"')
         self.obj.OutputDevice('file', 'c:\\spam.wav')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSetUnplayed(self):
         self.api.enqueue('ALTER VOICEMAIL 1234 SETUNPLAYED')
         self.obj.SetUnplayed()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testStartPlayback(self):
         self.api.enqueue('ALTER VOICEMAIL 1234 STARTPLAYBACK')
         self.obj.StartPlayback()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testStartPlaybackInCall(self):
         self.api.enqueue('ALTER VOICEMAIL 1234 STARTPLAYBACKINCALL')
         self.obj.StartPlaybackInCall()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testStartRecording(self):
         self.api.enqueue('ALTER VOICEMAIL 1234 STARTRECORDING')
         self.obj.StartRecording()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testStopPlayback(self):
         self.api.enqueue('ALTER VOICEMAIL 1234 STOPPLAYBACK')
         self.obj.StopPlayback()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testStopRecording(self):
         self.api.enqueue('ALTER VOICEMAIL 1234 STOPRECORDING')
         self.obj.StopRecording()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testUpload(self):
         self.api.enqueue('ALTER VOICEMAIL 1234 UPLOAD')
         self.obj.Upload()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     # Properties
     # ==========
@@ -97,7 +97,7 @@ class VoicemailTest(skype4pytest.TestCase):
         t = self.obj.AllowedDuration
         self.assertInstance(t, int)
         self.assertEqual(t, 123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testDatetime(self):
         # Readable, Type: datetime
@@ -109,7 +109,7 @@ class VoicemailTest(skype4pytest.TestCase):
         t = self.obj.Datetime
         self.assertInstance(t, datetime)
         self.assertEqual(t, datetime.fromtimestamp(now))
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testDuration(self):
         # Readable, Type: int
@@ -118,7 +118,7 @@ class VoicemailTest(skype4pytest.TestCase):
         t = self.obj.Duration
         self.assertInstance(t, int)
         self.assertEqual(t, 123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testFailureReason(self):
         # Readable, Type: str
@@ -127,7 +127,7 @@ class VoicemailTest(skype4pytest.TestCase):
         t = self.obj.FailureReason
         self.assertInstance(t, str)
         self.assertEqual(t, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testId(self):
         # Readable, Type: int
@@ -140,9 +140,9 @@ class VoicemailTest(skype4pytest.TestCase):
         self.api.enqueue('GET VOICEMAIL 1234 PARTNER_DISPNAME',
                          'VOICEMAIL 1234 PARTNER_DISPNAME eggs')
         t = self.obj.PartnerDisplayName
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testPartnerHandle(self):
         # Readable, Type: str
@@ -151,7 +151,7 @@ class VoicemailTest(skype4pytest.TestCase):
         t = self.obj.PartnerHandle
         self.assertInstance(t, str)
         self.assertEqual(t, 'eggs')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testStatus(self):
         # Readable, Type: str
@@ -160,7 +160,7 @@ class VoicemailTest(skype4pytest.TestCase):
         t = self.obj.Status
         self.assertInstance(t, str)
         self.assertEqual(t, 'DOWNLOADING')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testTimestamp(self):
         # Readable, Type: float
@@ -169,7 +169,7 @@ class VoicemailTest(skype4pytest.TestCase):
         t = self.obj.Timestamp
         self.assertInstance(t, float)
         self.assertEqual(t, 123.4)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testType(self):
         # Readable, Type: str
@@ -178,7 +178,7 @@ class VoicemailTest(skype4pytest.TestCase):
         t = self.obj.Type
         self.assertInstance(t, str)
         self.assertEqual(t, 'OUTGOING')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
 
 def suite():

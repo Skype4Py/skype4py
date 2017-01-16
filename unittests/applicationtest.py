@@ -20,24 +20,24 @@ class ApplicationTest(skype4pytest.TestCase):
         t = self.obj.Connect('eggs', WaitConnected=True)
         self.assertInstance(t, ApplicationStream)
         self.assertEqual(t.Handle, 'eggs:1')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testCreate(self):
         self.api.enqueue('CREATE APPLICATION spam')
         self.obj.Create()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testDelete(self):
         self.api.enqueue('DELETE APPLICATION spam')
         self.obj.Delete()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSendDatagram(self):
         self.api.enqueue('GET APPLICATION spam STREAMS',
                          'APPLICATION spam STREAMS eggs:1')
         self.api.enqueue('ALTER APPLICATION spam DATAGRAM eggs:1 sausage')
         self.obj.SendDatagram('sausage')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     # Properties
     # ==========
@@ -49,7 +49,7 @@ class ApplicationTest(skype4pytest.TestCase):
         t = self.obj.ConnectableUsers
         self.assertInstance(t, UserCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testConnectingUsers(self):
         # Readable, Type: UserCollection
@@ -58,12 +58,12 @@ class ApplicationTest(skype4pytest.TestCase):
         t = self.obj.ConnectingUsers
         self.assertInstance(t, UserCollection)
         self.assertEqual(len(t), 3)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testName(self):
         # Readable, Type: unicode
         t = self.obj.Name
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'spam')
 
     def testReceivedStreams(self):
@@ -73,7 +73,7 @@ class ApplicationTest(skype4pytest.TestCase):
         t = self.obj.ReceivedStreams
         self.assertInstance(t, ApplicationStreamCollection)
         self.assertEqual(len(t), 2)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def _testSendingStreams(self):
         # Readable, Type: ApplicationStreamCollection
@@ -82,7 +82,7 @@ class ApplicationTest(skype4pytest.TestCase):
         t = self.obj.SendingStreams
         self.assertInstance(t, ApplicationStreamCollection)
         self.assertEqual(len(t), 7)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testStreams(self):
         # Readable, Type: ApplicationStreamCollection
@@ -91,7 +91,7 @@ class ApplicationTest(skype4pytest.TestCase):
         t = self.obj.Streams
         self.assertInstance(t, ApplicationStreamCollection)
         self.assertEqual(len(t), 1)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
 
 class ApplicationStreamTest(skype4pytest.TestCase):
@@ -105,28 +105,28 @@ class ApplicationStreamTest(skype4pytest.TestCase):
     def testDisconnect(self):
         self.api.enqueue('ALTER APPLICATION spam DISCONNECT eggs:1')
         self.obj.Disconnect()
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testRead(self):
         # Returned type: unicode
         self.api.enqueue('ALTER APPLICATION spam READ eggs:1',
                          'ALTER APPLICATION spam READ eggs:1 ham')
         t = self.obj.Read()
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'ham')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testSendDatagram(self):
         self.api.enqueue('ALTER APPLICATION spam DATAGRAM eggs:1 ham',
                          'ALTER APPLICATION spam DATAGRAM eggs:1')
         self.obj.SendDatagram('ham')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testWrite(self):
         self.api.enqueue('ALTER APPLICATION spam WRITE eggs:1 ham',
                          'ALTER APPLICATION spam WRITE eggs:1')
         self.obj.Write('ham')
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     # Properties
     # ==========
@@ -140,7 +140,7 @@ class ApplicationStreamTest(skype4pytest.TestCase):
     def testApplicationName(self):
         # Readable, Type: unicode
         t = self.obj.ApplicationName
-        self.assertInstance(t, unicode)
+        self.assertInstance(t, str)
         self.assertEqual(t, 'spam')
 
     def testDataLength(self):
@@ -152,7 +152,7 @@ class ApplicationStreamTest(skype4pytest.TestCase):
         t = self.obj.DataLength
         self.assertInstance(t, int)
         self.assertEqual(t, 123)
-        self.failUnless(self.api.is_empty())
+        self.assertTrue(self.api.is_empty())
 
     def testHandle(self):
         # Readable, Type: str

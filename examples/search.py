@@ -28,4 +28,4 @@ skype.OnAttachmentStatus = new_skype_status
 # Search for users and display their Skype name, full name
 # and country.
 for user in skype.SearchForUsers('john doe'):
-    print user.Handle, user.FullName, user.Country
+    print(user.Handle, user.FullName, user.Country)

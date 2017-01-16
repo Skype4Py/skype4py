@@ -66,7 +66,7 @@ cmdConnect, \
 cmdDisconnect, \
 cmdData, \
 cmdError, \
-cmdPing = range(5)
+cmdPing = list(range(5))
 
 # parse command line options
 parser = optparse.OptionParser(version='%prog 1.0.0')
@@ -172,7 +172,7 @@ class TCPTunnel(threading.Thread):
             # tunnels
             StreamWrite(self.stream, cmdConnect, self.n)
 
-        print 'Opened new connection (%s)' % self.n
+        print('Opened new connection (%s)' % self.n)
 
         try:
             # main loop reading data from socket and sending them
@@ -191,7 +191,7 @@ class TCPTunnel(threading.Thread):
         if self.master:
             StreamWrite(self.stream, cmdDisconnect, self.n)
 
-        print 'Closed connection (%s)' % self.n
+        print('Closed connection (%s)' % self.n)
 
         del TCPTunnel.threads[self.n]
 
@@ -241,9 +241,9 @@ class SkypeEvents:
                         sock.connect(addr)
                         # start the tunnel thread
                         TCPTunnel(sock, stream, n).start()
-                    except socket.error, e:
+                    except socket.error as e:
                         # connection failed, send an error report back through the stream
-                        print 'error (%s): %s' % (n, e)
+                        print('error (%s): %s' % (n, e))
                         StreamWrite(stream, cmdError, n, tuple(e))
                         StreamWrite(stream, cmdDisconnect, n)
                 elif obj[0] == cmdDisconnect:
@@ -254,7 +254,7 @@ class SkypeEvents:
                         pass
                 elif obj[0] == cmdError:
                     # connection failed on the other side, display the error
-                    print 'error (%s): %s' % obj[1:2]
+                    print('error (%s): %s' % obj[1:2])
 
     def ApplicationDatagram(self, app, stream, text):
         """Called when a datagram is received over a stream."""
@@ -272,8 +272,8 @@ class SkypeEvents:
         # send the data
         try:
             sock.sendto(data, addr)
-        except socket.error, e:
-            print 'error: %s' % e
+        except socket.error as e:
+            print('error: %s' % e)
 
 # create a Skype object instance and register our event handlers
 skype = Skype4Py.Skype(Events=SkypeEvents())
@@ -331,4 +331,4 @@ try:
                 StreamWrite(stream, cmdPing)
 
 except KeyboardInterrupt:
-    print 'Interrupted'
+    print('Interrupted')

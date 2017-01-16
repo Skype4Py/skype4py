@@ -44,7 +44,7 @@ class SkypeAPI(SkypeAPIBase):
         assert cmd
         if reply is None:
             reply = cmd
-        self.queue.append((unicode(cmd), unicode(reply)))
+        self.queue.append((str(cmd), str(reply)))
         
     def dequeue(self):
         return self.queue.pop(0)
@@ -91,7 +91,7 @@ class TestCase(unittest.TestCase):
         '''Tests if value is an instance of types which may be a type or
         tuple of types (in which case value type may be one them).
         '''
-        self.failUnless(isinstance(value, types),
+        self.assertTrue(isinstance(value, types),
             '%s is not an instance of %s' % (repr(value), types))
 
     def skypeVersionInfo(self):
